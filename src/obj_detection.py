@@ -6,6 +6,7 @@ import logging
 import os
 import argparse
 from ultralytics import YOLO
+import cv2
 
 
 def main(input_file):
@@ -37,6 +38,15 @@ def main(input_file):
     # Loop through the results and display each one
     for result in results:
         result.show()  # Show the image with detections
+
+    # To save the findings
+    input_file_name = os.path.basename(input_file)
+    if results:
+        img_with_boxes = results[0].plot()  # Draw all bounding boxes on the image
+        save_path = 'outputs/output_' + input_file_name # Define save path
+        print(f"save_path: {save_path}")
+        cv2.imwrite(save_path, img_with_boxes)  # Save image
+        print(f"Image saved at: {save_path}")
 
 
 if __name__ == '__main__':
